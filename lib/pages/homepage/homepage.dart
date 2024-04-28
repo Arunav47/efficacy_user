@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:efficacy_user/models/event/event_model.dart';
 import 'package:efficacy_user/models/models.dart';
+import 'package:efficacy_user/pages/homepage/widgets/home/home.dart';
 import 'package:efficacy_user/utils/tutorials/tutorials.dart';
 import 'package:efficacy_user/pages/homepage/widgets/events_showcase_page/events_showcase_page.dart';
 import 'package:efficacy_user/pages/homepage/widgets/home_appbar/home_appbar.dart';
@@ -23,7 +24,8 @@ class Homepage extends StatefulWidget {
   State<Homepage> createState() => _HomepageState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _HomepageState extends State<Homepage> with SingleTickerProviderStateMixin{
+  late TabController tabController;
   //keys for guide
   GlobalKey exploreKey = GlobalKey();
   GlobalKey homeKey = GlobalKey();
@@ -37,6 +39,7 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     super.initState();
+    tabController = TabController(length: 3, vsync: this);
     // To view guide everytime uncomment the next line
     // LocalDatabase.resetGuideCheckpoint();
     if (LocalDatabase.getAndSetGuideStatus(LocalGuideCheck.bottomNav)) {
@@ -133,16 +136,13 @@ class _HomepageState extends State<Homepage> {
         }
       },
       child: Scaffold(
-        appBar: HomeBar(
-          drawerKey: drawerKey,
-          filterKeyHomePage: filterKeyHomePage,
-          navigator: navigator,
-          currentTabIndex: currentEventFilterTypeIndex.value,
-          currentBottomIndex: currentBottomIndex,
-        ),
-        endDrawer: CustomDrawer(
-          pageContext: context,
-        ),
+        // appBar: HomeBar(
+        //   drawerKey: drawerKey,
+        //   filterKeyHomePage: filterKeyHomePage,
+        //   navigator: navigator,
+        //   currentTabIndex: currentEventFilterTypeIndex.value,
+        //   currentBottomIndex: currentBottomIndex,
+        // ),
         bottomNavigationBar: CustomBottomNavigation(
           exploreKey: exploreKey,
           subKey: subKey,
@@ -150,12 +150,18 @@ class _HomepageState extends State<Homepage> {
           currentIndex: currentBottomIndex,
           onTap: bottomNavigator,
         ),
-        body: currentBottomIndex == 2
-            ? const SubscriptionPage()
-            : EventsShowcasePage(
-                showSubscribedOnly: currentBottomIndex == 1,
-                currentEventFilterTypeIndex: currentEventFilterTypeIndex,
-              ),
+        // body: currentBottomIndex == 2
+        //     ? const SubscriptionPage()
+        //     : EventsShowcasePage(
+        //         showSubscribedOnly: currentBottomIndex == 1,
+        //         currentEventFilterTypeIndex: currentEventFilterTypeIndex,
+        //       ),
+        body: (currentBottomIndex == 1)? 
+        Home()
+        :((currentBottomIndex == 0)?
+        EventsShowcasePage(showSubscribedOnly: false, currentEventFilterTypeIndex: currentEventFilterTypeIndex)
+        :SubscriptionPage()
+        )
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:efficacy_user/pages/homepage/widgets/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:feedback/feedback.dart';
 import 'utils/utils.dart';
@@ -35,7 +36,7 @@ class EfficacyUser extends StatelessWidget {
         ProfilePage.routeName: (context) => const ProfilePage(),
         SignUpPage.routeName: (context) => const SignUpPage(),
         ForgotPasswordPage.routeName: (context) => const ForgotPasswordPage(),
-        DevelopersPage.routeName: (context) => const DevelopersPage()
+        DevelopersPage.routeName: (context) => const DevelopersPage(),
       },
       builder: ErrorHandler.handle,
       theme: lightTheme,
